@@ -1,0 +1,44 @@
+version: "3.8"
+name: "mhr"
+services:
+  app:
+    image: marselhr/mhr-app:latest
+    container_name: app
+    build:
+      args:
+        user: marsel
+        uid: 1000
+      context: ./docker/app/build
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAG: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/app/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - laranet
+  nginx:
+    build:
+      context: ./docker/nginx/build
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+     - ./:/var/www
+     - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+     - ./docker/nginx/nginx-logs:/var/log/nginx
+    networks:
+      - laranet
+    depends_on:
+      - app
+networks:
+  laranet:
+    driver: bridge
