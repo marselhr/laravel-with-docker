@@ -28,7 +28,7 @@ RUN mkdir -p /home/$user/.composer && \
 #set working directory
 WORKDIR /var/www
 
-COPY composer.json composer.lock ./
+COPY ../../../composer.json ../../../composer.lock ./
 
 RUN composer install --no-scripts --no-autoloader
 

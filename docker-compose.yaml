@@ -2,7 +2,7 @@ version: "3.8"
 name: "mhr"
 services:
   app:
-    image: marselhr/mhr-app:latest
+    # image: marselhr/mhr-app:latest
     container_name: app
     build:
       args:
