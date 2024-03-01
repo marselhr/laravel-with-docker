@@ -18,5 +18,27 @@ You just need to clone this repo and run `docker compose up -d` to get everythin
 - pgsql (comming soon)
   
 
-
+## Quick Start
+Make sure your docker engine is running
+- Clone project to local
+  ```
+  git clone https://github.com/marselhr/laravel-with-docker.git laravel/app
+  ```
+- Navigate project folder
+  ```
+  cd laravel/app
+  ```
+- install dependecies for laravel
+  ```
+  docker exec app composer install
+  ```
+- Make `.env` file
+  ```
+  cp .env-example .env
+  ```
+- Create app key
+  ```
+  docker exec app php artisan key:generate
+  ```
+- Access [localhost](http://localhost) and now you have the fresh laravel app
 Thanks😊
