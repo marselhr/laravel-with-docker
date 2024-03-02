@@ -25,18 +25,8 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
-#set working directory
+
+# Set working directory
 WORKDIR /var/www
-
-COPY ../../../composer.json ../../../composer.lock ./
-
-RUN composer install --no-scripts --no-autoloader
-
-COPY ../../ ./
-
-RUN php artisan key:generate
-
-# Set permissions for Laravel
-RUN chown -R $user:www-data storage bootstrap/cache
 
 USER $user
