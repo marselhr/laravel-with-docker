@@ -1,6 +1,48 @@
-#/bin/bash
+#/usr/bin/bash
 
-while [[ $# -gt 0 ]]; do
+err() {
+  echo
+  echo -e "\033[1;31m [$(date +'%Y-%m-%dT%H:%M:%S%z')]: $* \033[0m" >&2
+  echo
+}
+
+install() {
+    if [ -f .env.example ]; then
+
+        if [ -f $(dirname $(readlink -f $0))/.env ]; then
+            rm $(dirname $(readlink -f $0))/.env
+            sleep 30;
+            echo ".env file removed"
+        fi
+        cp -f $(dirname $(readlink -f $0))/.env.example $(dirname $(readlink -f $0))/.env
+
+    else
+        err ".env.example file not found!"
+        exit 1001
+    fi
+    
+    #install composer and remove it if the dependencies instalation is complete
+    docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(dirname $(readlink -f $0)):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php82-composer:latest \
+    composer install --ignore-platform-reqs
+
+
+    if [ ! -L $(dirname $(readlink -f $0))/public/storage ]; then
+        echo "Creating storage symlink"
+        docker compose exec -i app php artisan storage:link
+    fi
+
+    docker compose exec -i app php artisan key:generate
+
+
+    echo "Instalation is Success😊"
+    sleep 0.5
+}
+
+while [ $# -gt 0 ]; do
     key="$1"
     case $key in
     -i | --install)
@@ -8,30 +50,9 @@ while [[ $# -gt 0 ]]; do
         exit 0
         ;;
     *)
-        echo "Invalid option: $key"
+        err "Invalid option: $key"
         exit 1001
         ;;
     esac
     shift
 done
-
-
-
-install() {
-    if [ -f .env-example ] then
-        cp .env-example .env
-    else
-        err ".env-example file not found!"
-    fi
-
-    if [ ! -L $(dirname $(readlink -f $0))/public/storage ]; then
-        echo "Creating storage symlink"
-        docker compose exec -i laravel php artisan storage:link
-    fi
-
-    docker compose exec -ti -u $(id -u):$(id -g) laravel \
-        compser install --ignore-platform-reqs
-
-    echo "Instalation is Succuess"
-    sleep 0.5
-}
