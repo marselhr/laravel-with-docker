@@ -11,7 +11,7 @@ install() {
 
         if [ -f $(dirname $(readlink -f $0))/.env ]; then
             rm $(dirname $(readlink -f $0))/.env
-            sleep 30;
+            sleep 3;
             echo ".env file removed"
         fi
         cp -f $(dirname $(readlink -f $0))/.env.example $(dirname $(readlink -f $0))/.env

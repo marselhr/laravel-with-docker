@@ -12,7 +12,13 @@ Create an environment to learn how to build a containerized Laravel development 
 
 You just need to clone this repo and run `docker compose up -d` to get everything.
 
-##### Some of the services are
+## Requirements
+
+- Docker
+- NodeJS LTS ^18
+- Shell (WSL2, MacOS, or Linux)
+
+## Some of the services are
 - laravel
 - nginx
 - pgsql (comming soon)
@@ -28,13 +34,13 @@ Make sure your docker engine is running
   ```
   cd laravel/app
   ```
-- install dependecies for laravel
+- set the execute permission for the `install.sh` file by default
   ```
-  docker exec app composer install
+  chmod +x ./install.sh
   ```
-- Make `.env` file
+- Install dependencies
   ```
-  cp .env-example .env
+  ./install.sh -i
   ```
 - Create app key
   ```
