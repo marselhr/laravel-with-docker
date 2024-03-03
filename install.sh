@@ -11,7 +11,7 @@ install() {
 
         if [ -f $(dirname $(readlink -f $0))/.env ]; then
             rm $(dirname $(readlink -f $0))/.env
-            sleep 3;
+            sleep 0.5;
             echo ".env file removed"
         fi
         cp -f $(dirname $(readlink -f $0))/.env.example $(dirname $(readlink -f $0))/.env
@@ -26,7 +26,7 @@ install() {
     -u "$(id -u):$(id -g)" \
     -v "$(dirname $(readlink -f $0)):/var/www/html" \
     -w /var/www/html \
-    laravelsail/php82-composer:latest \
+    laravelsail/php83-composer:latest \
     composer install --ignore-platform-reqs
 
 
@@ -38,8 +38,8 @@ install() {
     docker compose exec -i app php artisan key:generate
 
 
-    echo "Instalation is Success😊"
-    sleep 0.5
+    echo "Application has been successfully installed😊"
+    sleep 0.75
 }
 
 while [ $# -gt 0 ]; do
