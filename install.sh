@@ -6,6 +6,12 @@ err() {
   echo
 }
 
+success() {
+  echo
+  echo -e "\033[1;32m $* \033[0m" >&1
+  echo
+}
+
 install() {
     if [ -f .env.example ]; then
 
@@ -38,7 +44,7 @@ install() {
     docker compose exec -i app php artisan key:generate
 
 
-    echo "Application has been successfully installed😊"
+    success "Application has been successfully installed😊"
     sleep 0.75
 }
 
