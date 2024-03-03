@@ -34,6 +34,10 @@ Make sure your docker engine is running
   ```
   cd laravel/app
   ```
+- Build a services
+  ```
+  docker compose up -d
+  ```
 - set the execute permission for the `install.sh` file by default
   ```
   chmod +x ./install.sh
