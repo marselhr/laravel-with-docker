@@ -19,6 +19,19 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/app/local.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on:
+      - db
+    networks:
+      - laranet
+  db:
+    image: postgres:latest
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=marsel
+      - POSTGRES_DB=db_laradoc_app
     networks:
       - laranet
   nginx:
