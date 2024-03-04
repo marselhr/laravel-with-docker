@@ -31,10 +31,6 @@ Make sure your docker engine is running
   ```
   docker compose up -d
   ```
-- set the execute permission for the `install.sh` file by default
-  ```
-  chmod +x ./install.sh
-  ```
 - Install dependencies
   ```
   ./install.sh -i
